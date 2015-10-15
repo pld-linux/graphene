@@ -3,24 +3,23 @@
 #
 # Conditional build:
 %bcond_without	static_libs	# static library
-%bcond_with	introspection	# gobject introspection
+%bcond_without	introspection	# gobject introspection
 %bcond_with	sse2		# x86 SSE2 fast paths
 %bcond_without	armneon		# ARM NEON fast paths
 #
 %ifarch pentium4 %{x8664}
-%define	with_sse2
+%define	with_sse2	1
 %endif
 Summary:	Graphene - a thin layer of types for graphic libraries
 Summary(pl.UTF-8):	Graphene - cienka warstwa typów dla bibliotek graficznych
 Name:		graphene
-Version:	0.99.2
-Release:	2
+Version:	1.2.10
+Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	https://github.com/ebassi/graphene/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	ccd4e4d991fb41ff163b1e27cfc41ea2
-Patch0:		%{name}-bench.patch
-Patch1:		%{name}-gcc.patch
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/graphene/1.2/%{name}-%{version}.tar.xz
+# Source0-md5:	07b2a7b84e993370fc8915a92a34d7e6
+Patch0:		%{name}-gcc.patch
 URL:		https://github.com/ebassi/graphene
 BuildRequires:	glib2-devel >= 1:2.40.0
 %{?with_introspection:BuildRequires:	gobject-introspection-devel >= 1.41.0}
@@ -29,6 +28,8 @@ BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	libtool >= 2:2.2.6
 BuildRequires:	pkgconfig
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 Requires:	glib2 >= 1:2.40.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -67,10 +68,20 @@ Static Graphene library.
 %description static -l pl.UTF-8
 Statyczna biblioteka Graphene.
 
+%package apidocs
+Summary:	API documentation for Graphene library
+Summary(pl.UTF-8):	Dokumentacja API biblioteki Graphene
+Group:		Documentation
+
+%description apidocs
+API documentation for Graphene library.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API biblioteki Graphene.
+
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 %{__gtkdocize}
@@ -81,9 +92,11 @@ Statyczna biblioteka Graphene.
 %{__automake}
 %configure \
 	%{!?with_armneon:--disable-arm-neon} \
+	%{!?with_introspection:--disable-introspection} \
 	--disable-silent-rules \
 	%{!?with_sse2:--disable-sse2} \
-	%{?with_static_libs:--enable-static}
+	%{?with_static_libs:--enable-static} \
+	--with-html-dir=%{_gtkdocdir}
 %{__make}
 
 %install
@@ -103,14 +116,22 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc LICENSE README.md
+%doc ChangeLog
 %attr(755,root,root) %{_libdir}/libgraphene-1.0.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libgraphene-1.0.so.0
+%if %{with introspection}
+%{_libdir}/girepository-1.0/Graphene-1.0.typelib
+%endif
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgraphene-1.0.so
 %{_includedir}/graphene-1.0
+%dir %{_libdir}/graphene-1.0
+%{_libdir}/graphene-1.0/include
+%if %{with introspection}
+%{_datadir}/gir-1.0/Graphene-1.0.gir
+%endif
 %{_pkgconfigdir}/graphene-1.0.pc
 %{_pkgconfigdir}/graphene-gobject-1.0.pc
 
@@ -119,3 +140,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libgraphene-1.0.a
 %endif
+
+%files apidocs
+%defattr(644,root,root,755)
+%{_gtkdocdir}/graphene

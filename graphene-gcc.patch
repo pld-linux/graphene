@@ -49,17 +49,6 @@
  
  #include "graphene-rect.h"
  
---- graphene-0.99.2/src/graphene-simd4f.h.orig	2014-06-23 12:40:39.000000000 +0200
-+++ graphene-0.99.2/src/graphene-simd4f.h	2014-07-27 08:10:55.077366743 +0200
-@@ -586,7 +586,7 @@ typedef union {
-                           __ua.f[3] < __ub.f[3] ? __ua.f[3] : __ub.f[3]); \
-   }))
- 
--# define graphene_simd4f_max (a,b) \
-+# define graphene_simd4f_max(a,b) \
-   (G_GNUC_EXTENSION ({ \
-     graphene_simd4f_union_t __ua = { (a) }; \
-     graphene_simd4f_union_t __ub = { (b) }; \
 --- graphene-0.99.2/src/graphene-size.c.orig	2014-06-23 12:40:39.000000000 +0200
 +++ graphene-0.99.2/src/graphene-size.c	2014-07-27 08:11:34.260698434 +0200
 @@ -33,6 +33,7 @@
