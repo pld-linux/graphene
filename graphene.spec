@@ -6,7 +6,7 @@
 %bcond_without	introspection	# gobject introspection
 %bcond_with	sse2		# x86 SSE2 fast paths
 %bcond_without	armneon		# ARM NEON fast paths
-#
+
 %ifarch pentium4 %{x8664}
 %define	with_sse2	1
 %endif
@@ -14,18 +14,18 @@ Summary:	Graphene - a thin layer of types for graphic libraries
 Summary(pl.UTF-8):	Graphene - cienka warstwa typów dla bibliotek graficznych
 Name:		graphene
 Version:	1.2.10
-Release:	1
+Release:	2
 License:	MIT
 Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/graphene/1.2/%{name}-%{version}.tar.xz
 # Source0-md5:	07b2a7b84e993370fc8915a92a34d7e6
 Patch0:		%{name}-gcc.patch
 URL:		https://github.com/ebassi/graphene
+BuildRequires:	autoconf >= 2.63
+BuildRequires:	automake >= 1:1.11
 BuildRequires:	glib2-devel >= 1:2.40.0
 %{?with_introspection:BuildRequires:	gobject-introspection-devel >= 1.41.0}
 BuildRequires:	gtk-doc >= 1.20
-BuildRequires:	autoconf >= 2.63
-BuildRequires:	automake >= 1:1.11
 BuildRequires:	libtool >= 2:2.2.6
 BuildRequires:	pkgconfig
 BuildRequires:	tar >= 1:1.22
@@ -72,6 +72,9 @@ Statyczna biblioteka Graphene.
 Summary:	API documentation for Graphene library
 Summary(pl.UTF-8):	Dokumentacja API biblioteki Graphene
 Group:		Documentation
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description apidocs
 API documentation for Graphene library.
