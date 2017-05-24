@@ -13,12 +13,12 @@
 Summary:	Graphene - a thin layer of types for graphic libraries
 Summary(pl.UTF-8):	Graphene - cienka warstwa typów dla bibliotek graficznych
 Name:		graphene
-Version:	1.4.0
+Version:	1.6.0
 Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/graphene/1.4/%{name}-%{version}.tar.xz
-# Source0-md5:	9da87df893cb3c3252c79ab0eb758d31
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/graphene/1.6/%{name}-%{version}.tar.xz
+# Source0-md5:	4f823f2e6a9849ea2c85d4be52c0326f
 Patch0:		%{name}-gcc.patch
 URL:		https://github.com/ebassi/graphene
 BuildRequires:	autoconf >= 2.63
@@ -119,7 +119,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog
 %attr(755,root,root) %{_libdir}/libgraphene-1.0.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libgraphene-1.0.so.0
 %if %{with introspection}
