@@ -13,21 +13,25 @@
 Summary:	Graphene - a thin layer of types for graphic libraries
 Summary(pl.UTF-8):	Graphene - cienka warstwa typów dla bibliotek graficznych
 Name:		graphene
-Version:	1.6.0
+Version:	1.8.2
 Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/graphene/1.6/%{name}-%{version}.tar.xz
-# Source0-md5:	4f823f2e6a9849ea2c85d4be52c0326f
-Patch0:		%{name}-gcc.patch
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/graphene/1.8/%{name}-%{version}.tar.xz
+# Source0-md5:	87e023dcf748da9fb83bed4f18f6a8e6
+Patch0:		%{name}-gir.patch
 URL:		https://github.com/ebassi/graphene
-BuildRequires:	autoconf >= 2.63
-BuildRequires:	automake >= 1:1.11
+BuildRequires:	gcc >= 5:3.2
+%if %{with sse2}
+BuildRequires:	gcc >= 6:4.9
+%endif
 BuildRequires:	glib2-devel >= 1:2.40.0
 %{?with_introspection:BuildRequires:	gobject-introspection-devel >= 1.41.0}
 BuildRequires:	gtk-doc >= 1.20
-BuildRequires:	libtool >= 2:2.2.6
+BuildRequires:	meson >= 0.43.1
+BuildRequires:	ninja
 BuildRequires:	pkgconfig
+%{?with_introspection:BuildRequires:	python3 >= 1:3}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	glib2 >= 1:2.40.0
@@ -87,29 +91,19 @@ Dokumentacja API biblioteki Graphene.
 %patch0 -p1
 
 %build
-%{__gtkdocize}
-%{__libtoolize}
-%{__aclocal} -I build/autotools
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	%{!?with_armneon:--disable-arm-neon} \
-	%{!?with_introspection:--disable-introspection} \
-	--disable-silent-rules \
-	%{!?with_sse2:--disable-sse2} \
-	%{?with_static_libs:--enable-static} \
-	--with-html-dir=%{_gtkdocdir}
-%{__make}
+%meson build \
+	%{!?with_armneon:-Darm_neon=false} \
+	-Dgtk_doc=true \
+	%{!?with_introspection:-Dintrospection=false} \
+	%{!?with_sse2:-Dsse2=false} \
+	-Dtests=false
+
+%meson_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-# obsoleted by pkg-config
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libgraphene-1.0.la
+%meson_install -C build
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -119,6 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc LICENSE README.md
 %attr(755,root,root) %{_libdir}/libgraphene-1.0.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libgraphene-1.0.so.0
 %if %{with introspection}
