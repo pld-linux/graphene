@@ -13,23 +13,24 @@
 Summary:	Graphene - a thin layer of types for graphic libraries
 Summary(pl.UTF-8):	Graphene - cienka warstwa typów dla bibliotek graficznych
 Name:		graphene
-Version:	1.8.2
+Version:	1.8.6
 Release:	1
 License:	MIT
 Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/graphene/1.8/%{name}-%{version}.tar.xz
-# Source0-md5:	87e023dcf748da9fb83bed4f18f6a8e6
+# Source0-md5:	2f8bc12b1f4f764b7b547f0b85c932a3
 Patch0:		%{name}-gir.patch
 URL:		https://github.com/ebassi/graphene
-BuildRequires:	gcc >= 5:3.2
 %if %{with sse2}
 BuildRequires:	gcc >= 6:4.9
+%else
+BuildRequires:	gcc >= 5:3.2
 %endif
 BuildRequires:	glib2-devel >= 1:2.40.0
 %{?with_introspection:BuildRequires:	gobject-introspection-devel >= 1.41.0}
 BuildRequires:	gtk-doc >= 1.20
-BuildRequires:	meson >= 0.43.1
-BuildRequires:	ninja
+BuildRequires:	meson >= 0.48.0
+BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 %{?with_introspection:BuildRequires:	python3 >= 1:3}
 BuildRequires:	tar >= 1:1.22
