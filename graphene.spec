@@ -13,15 +13,15 @@
 Summary:	Graphene - a thin layer of types for graphic libraries
 Summary(pl.UTF-8):	Graphene - cienka warstwa typów dla bibliotek graficznych
 Name:		graphene
-Version:	1.8.6
+Version:	1.10.0
 Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/graphene/1.8/%{name}-%{version}.tar.xz
-# Source0-md5:	2f8bc12b1f4f764b7b547f0b85c932a3
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/graphene/1.10/%{name}-%{version}.tar.xz
+# Source0-md5:	07f72436bc7a85d12f5edd9fcedd0184
 Patch0:		%{name}-gir.patch
 URL:		https://github.com/ebassi/graphene
-%if %{with sse2}
+%if %{with sse2} || %{with armneon}
 BuildRequires:	gcc >= 6:4.9
 %else
 BuildRequires:	gcc >= 5:3.2
@@ -29,10 +29,11 @@ BuildRequires:	gcc >= 5:3.2
 BuildRequires:	glib2-devel >= 1:2.40.0
 %{?with_introspection:BuildRequires:	gobject-introspection-devel >= 1.41.0}
 BuildRequires:	gtk-doc >= 1.20
-BuildRequires:	meson >= 0.48.0
+BuildRequires:	meson >= 0.50.1
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 %{?with_introspection:BuildRequires:	python3 >= 1:3}
+BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	glib2 >= 1:2.40.0
@@ -114,7 +115,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc LICENSE README.md
+%doc LICENSE.txt README.md
 %attr(755,root,root) %{_libdir}/libgraphene-1.0.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libgraphene-1.0.so.0
 %if %{with introspection}
