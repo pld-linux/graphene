@@ -78,9 +78,7 @@ Statyczna biblioteka Graphene.
 Summary:	API documentation for Graphene library
 Summary(pl.UTF-8):	Dokumentacja API biblioteki Graphene
 Group:		Documentation
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 API documentation for Graphene library.
