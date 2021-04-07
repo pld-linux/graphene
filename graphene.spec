@@ -13,13 +13,12 @@
 Summary:	Graphene - a thin layer of types for graphic libraries
 Summary(pl.UTF-8):	Graphene - cienka warstwa typów dla bibliotek graficznych
 Name:		graphene
-Version:	1.10.2
+Version:	1.10.6
 Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/graphene/1.10/%{name}-%{version}.tar.xz
-# Source0-md5:	a2c26c4f44a02ca053e0e9afb63cc94c
-Patch0:		%{name}-gir.patch
+Source0:	https://download.gnome.org/sources/graphene/1.10/%{name}-%{version}.tar.xz
+# Source0-md5:	390139e704772b915ff2b7cac56c24ae
 URL:		https://github.com/ebassi/graphene
 %if %{with sse2} || %{with armneon}
 BuildRequires:	gcc >= 6:4.9
@@ -33,6 +32,7 @@ BuildRequires:	meson >= 0.50.1
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	python3 >= 1:3
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
@@ -88,7 +88,6 @@ Dokumentacja API biblioteki Graphene.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %meson build \
