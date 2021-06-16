@@ -97,12 +97,12 @@ Dokumentacja API biblioteki Graphene.
 	%{!?with_sse2:-Dsse2=false} \
 	-Dtests=false
 
-%meson_build -C build
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%meson_install -C build
+%ninja_install -C build
 
 %clean
 rm -rf $RPM_BUILD_ROOT
