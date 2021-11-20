@@ -14,7 +14,7 @@ Summary:	Graphene - a thin layer of types for graphic libraries
 Summary(pl.UTF-8):	Graphene - cienka warstwa typów dla bibliotek graficznych
 Name:		graphene
 Version:	1.10.6
-Release:	1
+Release:	2
 License:	MIT
 Group:		Libraries
 Source0:	https://download.gnome.org/sources/graphene/1.10/%{name}-%{version}.tar.xz
