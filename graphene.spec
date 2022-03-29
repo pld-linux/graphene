@@ -7,18 +7,18 @@
 %bcond_with	sse2		# x86 SSE2 fast paths
 %bcond_without	armneon		# ARM NEON fast paths
 
-%ifarch pentium4 %{x8664}
+%ifarch pentium4 %{x8664} x32
 %define	with_sse2	1
 %endif
 Summary:	Graphene - a thin layer of types for graphic libraries
 Summary(pl.UTF-8):	Graphene - cienka warstwa typów dla bibliotek graficznych
 Name:		graphene
-Version:	1.10.6
-Release:	2
+Version:	1.10.8
+Release:	1
 License:	MIT
 Group:		Libraries
 Source0:	https://download.gnome.org/sources/graphene/1.10/%{name}-%{version}.tar.xz
-# Source0-md5:	390139e704772b915ff2b7cac56c24ae
+# Source0-md5:	169e3c507b5a5c26e9af492412070b81
 URL:		https://github.com/ebassi/graphene
 %if %{with sse2} || %{with armneon}
 BuildRequires:	gcc >= 6:4.9
@@ -28,7 +28,7 @@ BuildRequires:	gcc >= 5:3.2
 BuildRequires:	glib2-devel >= 1:2.40.0
 %{?with_introspection:BuildRequires:	gobject-introspection-devel >= 1.41.0}
 BuildRequires:	gtk-doc >= 1.20
-BuildRequires:	meson >= 0.50.1
+BuildRequires:	meson >= 0.55.3
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	python3 >= 1:3
