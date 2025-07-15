@@ -90,19 +90,19 @@ Dokumentacja API biblioteki Graphene.
 %setup -q
 
 %build
-%meson build \
+%meson \
 	%{!?with_armneon:-Darm_neon=false} \
 	-Dgtk_doc=true \
 	%{!?with_introspection:-Dintrospection=false} \
 	%{!?with_sse2:-Dsse2=false} \
 	-Dtests=false
 
-%ninja_build -C build
+%meson_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C build
+%meson_install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
